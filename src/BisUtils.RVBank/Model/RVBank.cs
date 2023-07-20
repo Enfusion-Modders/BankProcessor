@@ -80,6 +80,12 @@ public class RVBank : BisSynchronizable<RVBankOptions>, IRVBank
         }
     }
 
+    public static RVBank ReadPbo(string path, RVBankOptions options, Stream? syncTo)
+    {
+        using var reader = new BisBinaryReader(File.OpenRead(path));
+        return new RVBank(Path.GetFileNameWithoutExtension(path), reader, options, syncTo);
+    }
+
     public sealed override Result Debinarize(BisBinaryReader reader, RVBankOptions options)
     {
         if(pboEntries.Count != 0)
